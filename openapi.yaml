@@ -1,0 +1,46 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "Websheep"
+servers:
+  - url: http://localhost:3000/auth/v1
+paths:
+  /users/{userId}:
+    get:
+      parameters:
+        - name: 'userId'
+          in: 'path'
+          schema:
+            type: string
+          required: true
+      security:
+        - bearerAuth: ['users:read']
+      responses:
+        200:
+          description: 'Success'
+          content:
+            application/json:    
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  address:
+                    type: string
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security: 
+  - bearerAuth: []
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
