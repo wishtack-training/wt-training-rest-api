@@ -1,0 +1,132 @@
+---
+swagger: "2.0"
+info:
+  description: "An API for keeping track of your contacts and the companies they work\
+    \ for. \n\nDon't forget to take it for a spin by clicking on the **Try in Client**\
+    \ button next to each operation! All read operations are public and don't require\
+    \ authentication.\n\n<div>\n<img src='https://thecontactsapi.apispark.net/v1/img/cropped-contact-img.png'\
+    \ width='90%'>\n<div>\n\n<!-- ![](https://thecontactsapi.apispark.net/v1/img/cropped-contact-img.png)\
+    \ -->\n\n"
+  version: "1.2.0"
+  title: "Contacts API"
+  termsOfService: ""
+  contact: {}
+host: "thecontactsapi.restlet.net"
+basePath: "/v1"
+schemes:
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /offers:
+    get:
+      tags:
+      - "offers"
+      summary: "Find offers"
+      parameters:
+      - name: "location"
+        in: "query"
+        required: true
+        type: "string"
+        x-example: "Lyon"
+      - name: "startDate"
+        in: "query"
+        required: false
+        type: "string"
+        format: "date"
+      - name: "endDate"
+        in: "query"
+        required: false
+        type: "string"
+        format: "date"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+            properties:
+              meta:
+                type: "object"
+                properties:
+                  totalCount:
+                    type: "number"
+              items:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Offer"
+      security: []
+  /users/{userId}/bookings:
+    get:
+      summary: "Retrieve user bookings"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+            properties:
+              items:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Booking"
+    post:
+      tags:
+      - "booking"
+      summary: "Make a booking"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            offerId:
+              type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "string"
+              status:
+                type: "string"
+    parameters:
+    - name: "userId"
+      in: "path"
+      required: true
+      type: "string"
+securityDefinitions:
+  HTTP_BASIC:
+    description: "All GET methods are public, meaning that *you can read all the data*.\
+      \ Write operations require authentication and therefore are forbidden to the\
+      \ general public."
+    type: "basic"
+definitions:
+  Offer:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      price:
+        type: "number"
+      vehiculeInfo:
+        $ref: "#/definitions/VehiculeInfo"
+  VehiculeInfo:
+    type: "object"
+    properties:
+      type:
+        type: "string"
+        enum:
+        - "A"
+        - "B"
+        - "C"
+  Booking:
+    type: "object"
+    properties:
+      offer:
+        $ref: "#/definitions/Offer"
