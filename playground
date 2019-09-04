@@ -1,0 +1,82 @@
+POST /carts
+
+POST /carts/:cartId/products
+PATCH /products/:productId
+{
+    count: 2
+}
+
+GET /cart-summaries/:cartId
+GET /carts/:cartId/summary
+
+POST /carts/:cartId/payments
+
+GET /carts/:cartId/payments
+
+
+GET /users/USER1/friendships/FRIENDSHIPID_123
+{
+    kind: 'friendship',
+    id: 'FRIENDSHIPID_123',
+    creationDateTime: ???,
+    user: {
+        kind: 'user',
+        id: 'USER2',
+        creationDateTime: ???,
+        firstName: 'User 2',
+    }
+}
+
+DELETE /friendships/FRIENDSHIPID_123
+
+
+GET /action-types
+[
+    {
+        kind: 'action-type',
+        id: 'drop'
+    },
+    {
+        kind: 'action-type',
+        id: 'rate-limiting'
+    }
+]
+
+GET /rules/:ruleId/actions
+[
+    {
+        id: 'action1234',
+        actionType: {
+            id: 'rate-limiting'
+        },
+        params: {
+            bandwidth: '1MB'
+        }
+    }
+]
+
+
+GET /rules/:ruleId/actions
+[
+    {
+        id: 'action1234',
+        kind: 'action-rate-limiting',
+        bandwidth: '1MB'
+    },
+    {
+        id: 'action1234',
+        kind: 'action-drop'
+    }
+]
+
+GET /apps
+[
+    {
+        kind: 'app',
+        name: 'asdad'
+    },
+    {
+        kind: 'custom-app',
+        ...
+    }
+]
