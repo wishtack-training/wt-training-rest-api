@@ -1,82 +1,109 @@
-POST /carts
-
-POST /carts/:cartId/products
-PATCH /products/:productId
-{
+/* Ajouter un item dans le panier. */
+POST /carts/123ab/items
+=> {
+    product: {
+        href: 'https://products-api.dev/products/PRODUCT_ID'
+    },
+    count: 2
+}
+<= {
+    id: '33333',
+    href: 'https://cart-api.dev/items/33333',
+    product: {
+        id: 'PRODUCT_ID',
+        href: 'https://products-api.dev/products/PRODUCT_ID'
+    },
     count: 2
 }
 
-GET /cart-summaries/:cartId
-GET /carts/:cartId/summary
-
-POST /carts/:cartId/payments
-
-GET /carts/:cartId/payments
-
-
-GET /users/USER1/friendships/FRIENDSHIPID_123
+/* Mettre à jour le nombre d'items. */
+PATCH /items/33333
 {
-    kind: 'friendship',
-    id: 'FRIENDSHIPID_123',
-    creationDateTime: ???,
-    user: {
-        kind: 'user',
-        id: 'USER2',
-        creationDateTime: ???,
-        firstName: 'User 2',
+    count: 3,
+    cart: {
+        href: '...'
     }
 }
 
-DELETE /friendships/FRIENDSHIPID_123
+/* Ajouter une tentative de paiment. */
+POST /carts/123ab/payments
+{
+    cardNumber: '123...555'
+}
+<= {
+    id: 'PAYMENT_1',
+    href: '.../payments/PAYMENT_1'
+    cardNumber: 'XXXXX555',
+    status: 'pending'
+}
 
-
-GET /action-types
-[
-    {
-        kind: 'action-type',
-        id: 'drop'
-    },
-    {
-        kind: 'action-type',
-        id: 'rate-limiting'
-    }
-]
-
-GET /rules/:ruleId/actions
-[
-    {
-        id: 'action1234',
-        actionType: {
-            id: 'rate-limiting'
+/* Historique des tentatives de paiement. */
+GET /carts/123ab/payments
+{
+    data: [
+        {
+            ...
         },
-        params: {
-            bandwidth: '1MB'
+        {
+            ...
         }
-    }
-]
+    ]
+}
 
-
-GET /rules/:ruleId/actions
-[
+PUT /carts/123/items
+=> [
     {
-        id: 'action1234',
-        kind: 'action-rate-limiting',
-        bandwidth: '1MB'
+        product: {
+            href: '...product1'
+        },
+        count: 2
     },
     {
-        id: 'action1234',
-        kind: 'action-drop'
-    }
-]
-
-GET /apps
-[
-    {
-        kind: 'app',
-        name: 'asdad'
-    },
-    {
-        kind: 'custom-app',
         ...
     }
 ]
+
+----------------------------------------
+
+// vehicleId can be a registration number
+GET /vehicles/:vehicleId?fields=drivers
+{
+    id: 'VEHICLE_1',
+    drivers: [
+        ...
+    ]
+}
+
+POST /vehicles/:vehicleId/incidents
+=> {
+    ...
+}
+
+<= {
+    id: 'INCIDENT_1'
+}
+
+POST /incidents/INCIDENT_1/operations
+=> {
+    kind: 'lift',
+    location: {...},
+    liftAppointmentAt: '2019-10-01T...'
+}
+
+<= {
+    id: 'OPERATION_1',
+    kind: 'lift',
+    createdAt: '...',
+    ...
+}
+
+GET /incidents/INCIDENTS_1/operations?status=active&sort=-createdAt
+{
+    next: '.../incidents/INCIDENTS_1/operations?status=active&sort=-createdAt&offset=10',
+    items: [
+
+    ]
+}
+
+
+
