@@ -1,0 +1,393 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Websheep
+  description: |
+    * [JSON specification](specification.json)
+    * [YAML specification](specification.yaml)
+  license:
+    name: MIT
+servers:
+  - description: Broken Access Control 1
+    url: http://localhost:3333/authz1
+  - description: Broken Access Control 2
+    url: http://localhost:3333/authz2
+  - description: Bad C.O.R.S. rules
+    url: http://localhost:3333/csrf1
+paths:
+  #
+  # Authentication
+  #
+  /tokens:
+    post:
+      summary: Create a token
+      tags:
+        - Authentication
+      operationId: createToken
+      requestBody:
+        description: Farmer credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      responses:
+        201:
+          description: Farmer id and token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+
+  /tokens/{tokenId}:
+    delete:
+      summary: Destroy token
+      tags:
+        - Authentication
+      operationId: deleteToken
+      parameters:
+        - in: path
+          name: tokenId
+          required: true
+          schema:
+            type: string
+          description: The token's id
+      responses:
+        204:
+          description: Token destroyed
+      security:
+          - BearerAuth: []
+
+  #
+  # Farm
+  #
+  /farmers/{farmerId}/farms:
+    get:
+      summary: Get farmer's farms
+      tags:
+        - Farm
+      operationId: getFarmerFarms
+      parameters:
+        - in: path
+          name: farmerId
+          required: true
+          schema:
+            type: string
+          description: The farmer's id
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FarmListResponse'
+      security:
+        - BearerAuth: []
+
+  #
+  # Farmer
+  #
+  /farmers/{farmerId}:
+    get:
+      summary: Get farmer
+      tags:
+        - Farmer
+      operationId: getFarmer
+      parameters:
+        - in: path
+          name: farmerId
+          required: true
+          schema:
+            type: string
+          description: The farmer's id
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmer'
+      security:
+        - BearerAuth: []
+
+    patch:
+      summary: Update farmer
+      tags:
+        - Farmer
+      operationId: updateFarmer
+      parameters:
+        - in: path
+          name: farmerId
+          required: true
+          schema:
+            type: string
+          description: The farmer's id
+      requestBody:
+        description: Farmer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Farmer'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmer'
+      security:
+        - BearerAuth: []
+
+
+  #
+  # Sheep
+  #
+  /farmers/{farmerId}/sheep:
+    get:
+      summary: Get farmer's sheep
+      tags:
+        - Sheep
+      operationId: getFarmerSheep
+      parameters:
+        - in: path
+          name: farmerId
+          required: true
+          schema:
+            type: string
+          description: The farmer's id
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SheepListResponse'
+      security:
+        - BearerAuth: []
+
+  /sheep:
+    post:
+      summary: Add sheep
+      tags:
+        - Sheep
+      operationId: addSheep
+      requestBody:
+        description: Sheep
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sheep'
+      responses:
+        201:
+          description: The created sheep
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sheep'
+      security:
+        - BearerAuth: []
+
+  /jobs:
+    post:
+      tags:
+        - Farm
+        - Farmer
+        - Job
+      summary: Add a job to link farmer to farm
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobRequest'
+      responses:
+        201:
+          description: Job created
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/Job'
+                  - $ref: '#/components/schemas/LegacyJob'
+
+components:
+  schemas:
+    Credentials:
+      type: object
+      required:
+        - userName
+        - password
+      properties:
+        userName:
+          type: string
+          example: karinelemarchand
+        password:
+          type: string
+          format: password
+          example: '123456'
+
+    Farm:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    FarmListResponse:
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Farm'
+
+    Farmer:
+      type: object
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+          enum: ['farmer']
+        firstName:
+          type: string
+        lastName:
+          type: string
+
+    ListResponse:
+      type: object
+      properties:
+        next:
+          type: string
+        previous:
+          type: string
+        totalCount:
+          type: number
+        items:
+          type: array
+          # Any type
+          items: {}
+
+    Sheep:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+          enum:
+            - sheep
+        age:
+          type: number
+        destinations:
+          type: array
+          items:
+            type: string
+            enum:
+              - kebab
+              - wool
+        eyeColor:
+          type: string
+        farm:
+          type: object
+          properties:
+            id:
+              type: string
+        gender:
+          type: string
+          enum:
+            - female
+            - male
+        name:
+          type: string
+        pictureUri:
+          type: string
+          nullable: true
+
+    SheepListResponse:
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Sheep'
+
+    TokenResponse:
+      type: object
+      required:
+        - id
+        - token
+        - userId
+      properties:
+        id:
+          type: string
+          description: Token's id
+        token:
+          type: string
+          description: Token's value
+        userId:
+          type: string
+      description: User's id
+    
+    JobRequest:
+      type: object
+      required: 
+        - farmId
+        - farmerId
+      properties:
+        farmId:
+          type: string
+        farmerId:
+          type: string
+    
+    # LegacyJob:
+    #   allOf:
+    #     - $ref: '#/components/schemas/JobRequest'
+    #     - type: object
+    #       required: 
+    #         - id
+    #       properties:
+    #         id:
+    #           type: string
+    LegacyJob:
+      type: object
+      required: 
+        - id
+      properties:
+        id:
+          type: string
+        farmId:
+          deprecated: true
+          description: Will be removed on January 1st 2020
+          type: string
+        farmerId:
+          deprecated: true
+          description: Will be removed on January 1st 2020
+          type: string
+    
+    Job:
+      type: object
+      required:
+        - id
+        - farm
+        - farmer
+      properties:
+        id:
+          type: string
+        farm:
+          $ref: '#/components/schemas/Farm'
+        farmer:
+          $ref: '#/components/schemas/Farmer'
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
