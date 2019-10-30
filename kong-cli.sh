@@ -1,5 +1,8 @@
-read url
-read key
+key=""
+url=https://localhost:8444
+
+COMMON_OPTIONS=(-k -H "apikey: $key")
+
 
 #
 # Services
@@ -10,24 +13,21 @@ function addService() {
   read service
   echo service url?
   read serviceUrl
-  curl -X POST \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/services" \
     --data "name=$service" \
     --data "url=$serviceUrl" | jq
 }
 
 function getServices() {
-  curl \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} \
     --url "$url/services" | jq
 }
 
 function deleteService() {
   echo which service?
   read service
-  curl -i -X DELETE \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -i -X DELETE \
     --url "$url/services/$service" 
 }
 
@@ -42,16 +42,15 @@ function addRoute() {
   read service
 
   echo which path?
-  read path
+  read routePath
 
   echo name?
   read name
 
-  curl -X POST \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/services/$service/routes" \
     --data "name=$name" \
-    --data "paths[]=$path" | jq
+    --data "paths=$routePath" | jq
   
 }
 
@@ -60,8 +59,7 @@ function getRoutes() {
   echo which service?
   read service
   
-  curl \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} \
     --url "$url/services/$service/routes" | jq
 
 }
@@ -71,8 +69,7 @@ function deleteRoute() {
   echo which route?
   read route
 
-  curl -X DELETE \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X DELETE \
     --url "$url/routes/$route" | jq
 
 }
@@ -86,13 +83,11 @@ function addConsumer() {
   echo consumer name?
   read consumer
 
-  curl -X POST \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/consumers" \
     --data "username=$consumer" | jq
 
-  curl -X POST \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/consumers/$consumer/acls" \
     --data "group=$consumer" | jq
 
@@ -100,8 +95,7 @@ function addConsumer() {
 
 function getConsumers() {
 
-  curl \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} \
     --url "$url/consumers" | jq
 
 }
@@ -111,8 +105,7 @@ function deleteConsumer() {
   echo consumer name?
   read consumer
 
-  curl -X DELETE \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X DELETE \
     --url "$url/consumers/$consumer" | jq
 }
 
@@ -121,8 +114,7 @@ function addCredentials() {
   echo consumer name?
   read consumer
 
-  curl -X POST \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/consumers/$consumer/key-auth" | jq
 
 }
@@ -136,8 +128,7 @@ function getPlugins() {
   echo which route?
   read route
 
-  curl \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} \
     --url "$url/routes/$route/plugins" | jq
 
 }
@@ -147,8 +138,7 @@ function deletePlugin() {
   echo which plugin?
   read plugin
 
-  curl -X DELETE \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X DELETE \
     --url "$url/plugins/$plugin" | jq
     
 }
@@ -161,8 +151,7 @@ function addPluginAuth() {
   echo which route?
   read route
   
-  curl -X POST \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/routes/$route/plugins" \
     --data "name=key-auth" | jq
 
@@ -177,8 +166,7 @@ function addPluginRateLimiting() {
   echo which route?
   read route
 
-  curl -X POST \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/routes/$route/plugins" \
     --data "name=rate-limiting" \
     --data "config.minute=5" \
@@ -199,8 +187,7 @@ function addPluginAcl() {
   echo "which consumers (e.g.: consumer1,consumer2)?"
   read consumers
 
-  curl -X POST \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/routes/$route/plugins" \
     --data "name=acl" \
     --data "config.whitelist=$consumers" | jq
@@ -218,13 +205,11 @@ function addPluginTcpLog() {
   echo which port?
   read port
 
-  curl -X POST \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/plugins" \
     --data "name=syslog" | jq
 
-  curl -X POST \
-    -H "apikey: $key" \
+  curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/plugins" \
     --data "name=tcp-log"  \
     --data "config.host=$host" \
