@@ -125,6 +125,14 @@ function addCredentials() {
 
 function getPlugins() {
 
+  curl ${COMMON_OPTIONS[@]} \
+    --url "$url/plugins" | jq
+
+}
+
+
+function getRoutePlugins() {
+
   echo which route?
   read route
 
@@ -196,14 +204,8 @@ function addPluginAcl() {
 
 function addPluginTcpLog() {
 
-  echo which route?
-  read route
-
   echo which host?
   read host
-
-  echo which port?
-  read port
 
   curl ${COMMON_OPTIONS[@]} -X POST \
     --url "$url/plugins" \
@@ -213,6 +215,6 @@ function addPluginTcpLog() {
     --url "$url/plugins" \
     --data "name=tcp-log"  \
     --data "config.host=$host" \
-    --data "config.port=$port" | jq
+    --data "config.port=514" | jq
 
 }
