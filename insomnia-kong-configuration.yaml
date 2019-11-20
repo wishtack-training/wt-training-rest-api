@@ -1,0 +1,328 @@
+_type: export
+__export_format: 4
+__export_date: 2019-11-20T16:37:14.773Z
+__export_source: insomnia.desktop.app:v7.0.3
+resources:
+  - _id: req_92fe3ad2f777466ab164cccc663b16c7
+    authentication: {}
+    body: {}
+    created: 1574263416845
+    description: ""
+    headers: []
+    isPrivate: false
+    metaSortKey: -1574263416845
+    method: GET
+    modified: 1574265584087
+    name: get services
+    parameters: []
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: https://localhost:8443/services
+    _type: request
+  - _id: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    created: 1574263395689
+    description: ""
+    modified: 1574263395689
+    name: My Workspace
+    parentId: null
+    _type: workspace
+  - _id: req_58b19cf900f4476fbe78675fefc5adff
+    authentication: {}
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_4e2da26a68944c9289ff771b9d7e39e3
+          name: name
+          value: sandwich
+        - id: pair_71f01247094c410e827fe5b0cace979a
+          name: url
+          value: https://sandwich.now.sh/sandwiches
+    created: 1574264008975
+    description: ""
+    headers:
+      - id: pair_fd6f4ba8885a4ee8b3c246b936ed67f0
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+    isPrivate: false
+    metaSortKey: -1574213180209.5
+    method: POST
+    modified: 1574264171246
+    name: add service
+    parameters: []
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: https://localhost:8444/services
+    _type: request
+  - _id: req_b0e16b10f5364db5a79b8442469bdd8d
+    authentication: {}
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_4e2da26a68944c9289ff771b9d7e39e3
+          name: name
+          value: sandwich
+        - id: pair_71f01247094c410e827fe5b0cace979a
+          name: paths
+          value: /sandwiches
+    created: 1574264426770
+    description: ""
+    headers:
+      - id: pair_fd6f4ba8885a4ee8b3c246b936ed67f0
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+    isPrivate: false
+    metaSortKey: -1574188061891.75
+    method: POST
+    modified: 1574264592831
+    name: add route
+    parameters: []
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: https://localhost:8444/services/sandwich/routes
+    _type: request
+  - _id: req_3ec99199b5564c4ca0ca4b7e266d00f3
+    authentication: {}
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_4e2da26a68944c9289ff771b9d7e39e3
+          name: name
+          value: rate-limiting
+        - id: pair_387c4bd2b94f476a8e9d1b5bb36a258f
+          name: config.minute
+          value: "5"
+        - id: pair_14f90ad2edbb4e719ba9f7f123f32c9b
+          name: config.policy
+          value: local
+    created: 1574265145319
+    description: ""
+    headers:
+      - id: pair_fd6f4ba8885a4ee8b3c246b936ed67f0
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+    isPrivate: false
+    metaSortKey: -1574175502732.875
+    method: POST
+    modified: 1574265188724
+    name: add rate limiting
+    parameters: []
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: https://localhost:8444/routes/sandwich/plugins
+    _type: request
+  - _id: req_31fdd2d16206473fbef3ddff1c862bdf
+    authentication: {}
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_06e235d0c77145438d0c569db17b696f
+          name: username
+          value: orsys
+        - id: pair_538bc7dcb4664eddb8b8b54fe8ee578c
+          name: ""
+          value: ""
+    created: 1574265417529
+    description: ""
+    headers:
+      - id: pair_fd6f4ba8885a4ee8b3c246b936ed67f0
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+    isPrivate: false
+    metaSortKey: -1574169223153.4375
+    method: POST
+    modified: 1574265442106
+    name: add consumer
+    parameters: []
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: https://localhost:8444/consumers
+    _type: request
+  - _id: req_510bc67f0df645d3a0056b766a6c161d
+    authentication: {}
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_06e235d0c77145438d0c569db17b696f
+          name: group
+          value: orsys
+        - id: pair_538bc7dcb4664eddb8b8b54fe8ee578c
+          name: ""
+          value: ""
+    created: 1574265509377
+    description: ""
+    headers:
+      - id: pair_fd6f4ba8885a4ee8b3c246b936ed67f0
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+    isPrivate: false
+    metaSortKey: -1574166083363.7188
+    method: POST
+    modified: 1574265523650
+    name: add consumer group
+    parameters: []
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: https://localhost:8444/consumers/orsys/acls
+    _type: request
+  - _id: req_b14b82f7013843d5bbd28de9b190ae61
+    authentication: {}
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params: []
+    created: 1574265597186
+    description: ""
+    headers:
+      - id: pair_fd6f4ba8885a4ee8b3c246b936ed67f0
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+    isPrivate: false
+    metaSortKey: -1574164513468.8594
+    method: POST
+    modified: 1574265612215
+    name: add consumer credentials
+    parameters: []
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: https://localhost:8444/consumers/orsys/key-auth
+    _type: request
+  - _id: req_01b0a0147c494b119e72123589a36285
+    authentication: {}
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_4e2da26a68944c9289ff771b9d7e39e3
+          name: name
+          value: key-auth
+    created: 1574265654588
+    description: ""
+    headers:
+      - id: pair_fd6f4ba8885a4ee8b3c246b936ed67f0
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+    isPrivate: false
+    metaSortKey: -1574164513418.8594
+    method: POST
+    modified: 1574265682998
+    name: add key-auth plugin
+    parameters: []
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: https://localhost:8444/routes/sandwich/plugins
+    _type: request
+  - _id: req_e1e97ad980384deb839ce3febee6d79c
+    authentication: {}
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - disabled: false
+          id: pair_4e2da26a68944c9289ff771b9d7e39e3
+          name: name
+          value: acl
+        - id: pair_5152126e0ef9490e8228c65aa45ce8e4
+          name: config.whitelist
+          value: orsys
+    created: 1574265831424
+    description: ""
+    headers:
+      - id: pair_fd6f4ba8885a4ee8b3c246b936ed67f0
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+    isPrivate: false
+    metaSortKey: -1574163728496.4297
+    method: POST
+    modified: 1574266025461
+    name: add acl plugin
+    parameters: []
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: https://localhost:8444/routes/sandwich/plugins
+    _type: request
+  - _id: req_e365a07c69604a1999073da28154ac3c
+    authentication: {}
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - disabled: false
+          id: pair_4e2da26a68944c9289ff771b9d7e39e3
+          name: name
+          value: tcp-log
+        - id: pair_5152126e0ef9490e8228c65aa45ce8e4
+          name: config.port
+          value: "514"
+        - id: pair_736c1205b0d8466f8638f997dc45de90
+          name: config.host
+          value: 192.168.64.1
+    created: 1574266031654
+    description: ""
+    headers:
+      - id: pair_fd6f4ba8885a4ee8b3c246b936ed67f0
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+    isPrivate: false
+    metaSortKey: -1574163336035.2148
+    method: POST
+    modified: 1574266084673
+    name: add tcp-log plugin
+    parameters: []
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: https://localhost:8444/routes/sandwich/plugins
+    _type: request
+  - _id: env_295a7dc213f3af83e87059a09fe54ff71038fa39
+    color: null
+    created: 1574263395703
+    data: {}
+    dataPropertyOrder: null
+    isPrivate: false
+    metaSortKey: 1574263395703
+    modified: 1574263395703
+    name: Base Environment
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    _type: environment
+  - _id: jar_295a7dc213f3af83e87059a09fe54ff71038fa39
+    cookies: []
+    created: 1574263395706
+    modified: 1574263395706
+    name: Default Jar
+    parentId: wrk_2bdc01736c2a45caa64f5fcafe6facc3
+    _type: cookie_jar
